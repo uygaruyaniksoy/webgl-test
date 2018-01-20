@@ -1,21 +1,20 @@
-import GLManager from './src/opengl/GLManager';
-import ShaderManager from './src/opengl/ShaderManager';
 import BufferManager from './src/opengl/BufferManager';
 import DrawManager from './src/opengl/DrawManager';
+import GLManager from './src/opengl/GLManager';
+import ShaderManager from './src/opengl/ShaderManager';
 
 window.GLManager = GLManager;
 window.ShaderManager = ShaderManager;
 window.BufferManager = BufferManager;
 window.DrawManager = DrawManager;
 
-var canvas = document.getElementById("canvas");
-var shaderProgram;
+let canvas = document.getElementById("canvas");
 
 window.mvMatrix = mat4.create();
 window.pMatrix = mat4.create();
 
-window.triangleVertexPositionBuffer = undefined;
-window.squareVertexPositionBuffer = undefined;
+window.triangleVertexPositionBuffer = {};
+window.squareVertexPositionBuffer = {};
 
 GLManager.init(canvas);
 ShaderManager.initShaders();

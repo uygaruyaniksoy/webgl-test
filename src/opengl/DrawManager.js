@@ -4,7 +4,10 @@ export default class DrawManager {
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
   }
 
-  static draw() {
+  static draw(loop) {
+    let startTime, endTime;
+    startTime = Date.now();
+
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -24,13 +27,17 @@ export default class DrawManager {
     gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
     this.setMatrixUniforms();
     gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
+
+    endTime = Date.now();
+    if (!loop) return;
+
+    this.frame.number++;
+    if (endTime - startTime > 16) draw(true);
+    else setTimeout(() => { draw(true); }, startTime + 16 - endTime);
   }
 
   static loop() {
     this.frame = { number: 0 };
-    this.loopId = setInterval(() => {
-      this.draw();
-      this.frame.number++;
-    }, 16);
+    this.draw(true);
   }
 }

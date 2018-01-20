@@ -13,7 +13,7 @@ module.exports = {
         }
       },
       {
-        test: /\.(txt|vert|frag)$/,
+        test: /\.(txt|vert|frag|glsl)$/,
         use: 'raw-loader'
       }
     ]

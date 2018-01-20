@@ -3,9 +3,7 @@ import verticeSource from '../shaders/shader.vert';
 
 export default class ShaderManager {
   static getShader(gl, shaderType, sourceFile) {
-    let str;
-
-    let shader = gl.createShader(shaderType);;
+    let shader = gl.createShader(shaderType);
 
     gl.shaderSource(shader, sourceFile);
     gl.compileShader(shader);
