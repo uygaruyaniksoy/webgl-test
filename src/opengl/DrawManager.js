@@ -15,6 +15,8 @@ export default class DrawManager {
 
     mat4.identity(mvMatrix);
 
+    mat4.rotate(mvMatrix, DrawManager.frame.number / 360, [0, 0, 1]);
+
     mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);
     gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
     gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
@@ -32,8 +34,8 @@ export default class DrawManager {
     if (!loop) return;
 
     this.frame.number++;
-    if (endTime - startTime > 16) draw(true);
-    else setTimeout(() => { draw(true); }, startTime + 16 - endTime);
+    if (endTime - startTime > 16) this.draw(true);
+    else setTimeout(() => { this.draw(true); }, startTime + 16 - endTime);
   }
 
   static loop() {

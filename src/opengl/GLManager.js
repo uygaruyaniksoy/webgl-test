@@ -1,5 +1,7 @@
 export default class GLManager {
   static init(canvas) {
+    canvas.width = innerWidth;
+    canvas.height = innerHeight;
     try {
       window.gl = canvas.getContext("experimental-webgl");
       gl.viewportWidth = canvas.width;
