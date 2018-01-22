@@ -1,5 +1,5 @@
 export default class GLManager {
-  static init(canvas) {
+  init(canvas) {
     canvas.width = innerWidth;
     canvas.height = innerHeight;
     try {
@@ -11,5 +11,6 @@ export default class GLManager {
     if (!window.gl) {
       alert("Could not initialise WebGL, sorry :-(");
     }
+    this.canvas = canvas;
   }
 }

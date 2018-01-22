@@ -1,10 +1,14 @@
 export default class DrawManager {
+  constructor() {
+    this.frame = { number: 0 };
+  }
+
   static setMatrixUniforms() {
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
   }
 
-  static draw(loop) {
+  draw(loop) {
     let startTime, endTime;
     startTime = Date.now();
 
@@ -13,22 +17,18 @@ export default class DrawManager {
 
     mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
-    mat4.identity(mvMatrix);
+    EntityManager.entities.forEach((entity) => {
 
-    mat4.rotate(mvMatrix, DrawManager.frame.number / 360, [0, 0, 1]);
+      mat4.identity(mvMatrix);
+      mat4.translate(mvMatrix, [-1, 0.0, -7.0]);
+      mat4.rotate(mvMatrix, this.frame.number / 360, [0, 0, 1]);
 
-    mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);
-    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-    this.setMatrixUniforms();
-    gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer.numItems);
+      gl.bindBuffer(gl.ARRAY_BUFFER, entity.buffer);
+      gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, entity.buffer.itemSize, gl.FLOAT, false, 0, 0);
+      DrawManager.setMatrixUniforms();
+      gl.drawArrays(gl.TRIANGLES, 0, entity.buffer.numItems);
+    });
 
-
-    mat4.translate(mvMatrix, [3.0, 0.0, 0.0]);
-    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-    this.setMatrixUniforms();
-    gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
 
     endTime = Date.now();
     if (!loop) return;
@@ -38,8 +38,7 @@ export default class DrawManager {
     else setTimeout(() => { this.draw(true); }, startTime + 16 - endTime);
   }
 
-  static loop() {
-    this.frame = { number: 0 };
+  loop() {
     this.draw(true);
   }
 }

@@ -3,8 +3,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js$/,
         exclude: /(node_modules|bower_components)/,
+        test: /\.js$/,
         use: {
           loader: 'babel-loader',
           options: {
@@ -23,5 +23,6 @@ module.exports = {
   },
   output: {
     filename: 'bundle.js'
-  }
+  },
+  devtool: 'source-map'
 };

@@ -2,6 +2,10 @@ import fragmentSource from '../shaders/shader.frag';
 import verticeSource from '../shaders/shader.vert';
 
 export default class ShaderManager {
+  constructor() {
+    this.program = 0;
+  }
+
   static getShader(gl, shaderType, sourceFile) {
     let shader = gl.createShader(shaderType);
 
@@ -16,9 +20,9 @@ export default class ShaderManager {
     return shader;
   }
 
-  static initShaders() {
-    let fragmentShader = this.getShader(gl, gl.FRAGMENT_SHADER, fragmentSource);
-    let vertexShader = this.getShader(gl, gl.VERTEX_SHADER, verticeSource);
+  initShaders() {
+    let fragmentShader = ShaderManager.getShader(gl, gl.FRAGMENT_SHADER, fragmentSource);
+    let vertexShader = ShaderManager.getShader(gl, gl.VERTEX_SHADER, verticeSource);
 
     window.shaderProgram = gl.createProgram();
     gl.attachShader(shaderProgram, vertexShader);
@@ -30,6 +34,7 @@ export default class ShaderManager {
     }
 
     gl.useProgram(shaderProgram);
+    this.program = shaderProgram;
 
     shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
     gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
