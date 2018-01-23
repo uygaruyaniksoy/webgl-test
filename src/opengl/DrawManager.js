@@ -18,10 +18,14 @@ export default class DrawManager {
     mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
     EntityManager.entities.forEach((entity) => {
-
       mat4.identity(mvMatrix);
-      mat4.translate(mvMatrix, [-1, 0.0, -7.0]);
-      mat4.rotate(mvMatrix, this.frame.number / 360, [0, 0, 1]);
+
+      entity.transformations.reverse().forEach((t) => {
+        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 360, t.axis);
+        else if (t.type === 'SCALE') mat4.scale(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.amount, [1, 1, 1]);
+        else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, t.amount.map((a) => a * Math.min((startTime - t.start) / t.duration, 1)));
+      });
+      entity.transformations.reverse();
 
       gl.bindBuffer(gl.ARRAY_BUFFER, entity.buffer);
       gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, entity.buffer.itemSize, gl.FLOAT, false, 0, 0);

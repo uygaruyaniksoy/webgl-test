@@ -24,6 +24,10 @@ EntityManager.createEntity(Base, [
     -1.0, -1.0,  0.0,
     1.0, -1.0,  0.0
   ]);
+EntityManager.entities[0]
+  // .rotate(3600, [0, 0, 1], 2)
+  .translate([0, 0, -0.001], 0)
+  .translate([0, 0, -9.9], 1);
 
 gl.clearColor(0.0, 0.0, 0.0, 1.0);
 gl.enable(gl.DEPTH_TEST);

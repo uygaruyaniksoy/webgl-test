@@ -1,7 +1,6 @@
 export default class EntityManager {
   constructor() {
     this.entities = [];
-    this.transformations = [];
   }
 
   createEntity(Type, vertices) {
@@ -10,7 +9,4 @@ export default class EntityManager {
     entity.buffer = BufferManager.initBuffer(vertices);
   }
 
-  rotate() {
-    
-  }
 }

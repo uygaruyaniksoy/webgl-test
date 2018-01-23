@@ -12,5 +12,6 @@ export default class GLManager {
       alert("Could not initialise WebGL, sorry :-(");
     }
     this.canvas = canvas;
+    gl.PI = 3.1415;
   }
 }
