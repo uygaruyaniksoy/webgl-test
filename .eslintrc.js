@@ -46,7 +46,6 @@ module.exports = {
         ],
         "callback-return": "error",
         "camelcase": "error",
-        "capitalized-comments": "error",
         "class-methods-use-this": "error",
         "comma-dangle": "error",
         "comma-spacing": [
@@ -115,7 +114,6 @@ module.exports = {
         "max-len": "off",
         "max-lines": "error",
         "max-nested-callbacks": "error",
-        "max-params": "error",
         "max-statements": "off",
         "max-statements-per-line": "off",
         "multiline-comment-style": "error",

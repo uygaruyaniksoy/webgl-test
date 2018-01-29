@@ -1,5 +1,5 @@
-import fragmentSource from '../shaders/shader.frag';
-import verticeSource from '../shaders/shader.vert';
+import fragmentSource from '../shaders/phong.frag';
+import verticeSource from '../shaders/phong.vert';
 
 export default class ShaderManager {
   constructor() {
@@ -30,16 +30,19 @@ export default class ShaderManager {
     gl.linkProgram(shaderProgram);
 
     if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
-      alert("Could not initialise shaders");
+      alert('Could not initialise shaders');
     }
 
     gl.useProgram(shaderProgram);
     this.program = shaderProgram;
 
-    shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+    shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, 'normal');
+    gl.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);
+    shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, 'position');
     gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
 
-    shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
-    shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+    shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, 'projection');
+    shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, 'modelview');
+    shaderProgram.nMatrixUniform = gl.getUniformLocation(shaderProgram, 'normalMatrix');
   }
 }

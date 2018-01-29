@@ -1,6 +1,7 @@
 export default class Base {
-  constructor(vertices) {
+  constructor(vertices, indices) {
     this.vertices = vertices;
+    this.indices = indices;
     this.transformations = [];
   }
 

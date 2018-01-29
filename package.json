@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start:dev": "webpack-dev-server",
-    "start": "webpack"
+    "start": "webpack",
+    "push": "git push origin master"
   },
   "author": "",
   "license": "ISC",
@@ -15,6 +16,7 @@
     "@babel/preset-env": "^7.0.0-beta.38",
     "babel-loader": "^8.0.0-beta.0",
     "fs": "0.0.1-security",
+    "glsl-inverse": "^1.0.0",
     "webpack": "^3.10.0"
   },
   "devDependencies": {

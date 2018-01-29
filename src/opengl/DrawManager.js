@@ -6,6 +6,7 @@ export default class DrawManager {
   static setMatrixUniforms() {
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+    gl.uniformMatrix4fv(shaderProgram.nMatrixUniform, false, normalMatrix);
   }
 
   draw(loop) {
@@ -21,16 +22,30 @@ export default class DrawManager {
       mat4.identity(mvMatrix);
 
       entity.transformations.reverse().forEach((t) => {
-        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 360, t.axis);
-        else if (t.type === 'SCALE') mat4.scale(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.amount, [1, 1, 1]);
+        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 180, t.axis);
+        else if (t.type === 'SCALE') mat4.scale(mvMatrix, [1, 1, 1].map(() => Math.min((startTime - t.start) / t.duration, 1) * t.amount));
         else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, t.amount.map((a) => a * Math.min((startTime - t.start) / t.duration, 1)));
       });
       entity.transformations.reverse();
 
-      gl.bindBuffer(gl.ARRAY_BUFFER, entity.buffer);
-      gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, entity.buffer.itemSize, gl.FLOAT, false, 0, 0);
+      EntityManager.camera.transformations.reverse().forEach((t) => {
+        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 180, t.axis);
+        else if (t.type === 'SCALE') mat4.scale(mvMatrix, [1, 1, 1].map(() => Math.min((startTime - t.start) / t.duration, 1) * t.amount));
+        else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, t.amount.map((a) => a * Math.min((startTime - t.start) / t.duration, 1)));
+      });
+
+      EntityManager.camera.transformations.reverse();
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, entity.verticesBuffer);
+      gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, entity.verticesBuffer.itemSize, gl.FLOAT, false, 0, 0);
+      gl.bindBuffer(gl.ARRAY_BUFFER, entity.normalsBuffer);
+      gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, entity.normalsBuffer.itemSize, gl.FLOAT, false, 0, 0);
+      mat4.inverse(mvMatrix, normalMatrix);
+      mat4.transpose(normalMatrix);
       DrawManager.setMatrixUniforms();
-      gl.drawArrays(gl.TRIANGLES, 0, entity.buffer.numItems);
+
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, entity.indicesBuffer);
+      gl.drawElements(gl.TRIANGLES, entity.indicesBuffer.itemSize * entity.indicesBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     });
 
 
