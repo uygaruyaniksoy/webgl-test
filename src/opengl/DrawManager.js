@@ -9,14 +9,15 @@ export default class DrawManager {
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
     gl.uniformMatrix4fv(shaderProgram.nMatrixUniform, false, normalMatrix);
-    gl.uniform3fv(shaderProgram.cameraPosUniform, camera.position());
+    gl.uniform3fv(shaderProgram.cameraPosUniform, camera._position);
   }
 
   draw(loop) {
+    input.focus(); //TODO probably should remove later
     window.startTime = Date.now();
     let view = mat4.create();
 
-    mat4.lookAt(view, camera.position(), camera.gazePosition(), camera.up());
+    mat4.lookAt(view, camera._position, camera.gazePosition(), camera.up());
 
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);

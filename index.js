@@ -3,6 +3,7 @@ import BufferManagerClass from './src/opengl/BufferManager';
 import DrawManagerClass from './src/opengl/DrawManager';
 import EntityManagerClass from './src/opengl/EntityManager';
 import GLManagerClass from './src/opengl/GLManager';
+import InputHandlerClass from './src/opengl/InputHandler';
 import ShaderManagerClass from './src/opengl/ShaderManager';
 
 window.BufferManager = new BufferManagerClass();
@@ -10,6 +11,7 @@ window.DrawManager = new DrawManagerClass();
 window.EntityManager = new EntityManagerClass();
 window.GLManager = new GLManagerClass();
 window.ShaderManager = new ShaderManagerClass();
+window.InputHandler = new InputHandlerClass();
 window.camera = EntityManager.camera;
 
 let canvas = document.getElementById("canvas");
@@ -69,14 +71,14 @@ EntityManager.createEntity(
 );
 
 EntityManager.entities[0]
-  .scale(1, gl.EASEIN, 1)
+  .scale(1, gl.EASEIN, 0.5)
   // .rotate(360, [0, 1, 0], 0, 1)
   .rotate(360, [0, 1, 0], gl.EASEIN | gl.EASEOUT, 10)
   .translate([0, 0, -0.001])
   .translate([0, 0, -9.9]);
 
 EntityManager.entities[2]
-  .scale(1, 0, 1)
+  .scale(1, 0, 0.5)
   .rotate(360, [0, 1, 0], 0, 10)
   .translate([4, 0, -0.001])
   // .rotate(360, [0, 1, 0], gl.EASEOUT | gl.EASEIN, 1)

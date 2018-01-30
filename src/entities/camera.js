@@ -2,6 +2,9 @@ import { Vector3 } from 'three';
 
 export default class Camera {
   constructor() {
+    this._position = [0, 0, 0];
+    this._up = [0, 1, 0];
+    this._gaze = [0, 0, -1];
     this.transformations = [];
   }
 
@@ -57,7 +60,7 @@ export default class Camera {
 
   gazePosition() {
     let gaze = this.gaze();
-    let position = this.position();
+    let position = this._position;
     let res = [];
     for (let i = 0; i < 3; i++) res[i] = gaze[i] + position[i];
     return res;

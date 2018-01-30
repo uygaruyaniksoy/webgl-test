@@ -15,7 +15,7 @@ void main() {
   vec3 normal = normalize(normalInterp);
   vec3 lightDir = normalize(lightPos - vertPos);
 
-  float lambertian = max(dot(lightDir,normal), 0.0);
+  float lambertian = max(dot(lightDir, normal), 0.0);
   float specular = 0.0;
 
   if (lambertian > 0.0) {
