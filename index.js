@@ -53,10 +53,33 @@ EntityManager.createEntity(
   ]
 );
 
+EntityManager.createEntity(
+  Base,
+  [
+    0.0,  1.0,  0.0,
+    -1.0, -1.0,  0.0,
+    1.0, -1.0,  0.0
+  ],
+  [0, 1, 2],
+  [
+    0, 0, 1,
+    0, 0, 1,
+    0, 0, 1
+  ]
+);
+
 EntityManager.entities[0]
-  // .scale(1, 10)
+  .scale(1, gl.EASEIN, 1)
+  // .rotate(360, [0, 1, 0], 0, 1)
+  .rotate(360, [0, 1, 0], gl.EASEIN | gl.EASEOUT, 10)
   .translate([0, 0, -0.001])
-  .rotate(360, [0, 1, 0], gl.INFINITE | gl.EASE, 1)
+  .translate([0, 0, -9.9]);
+
+EntityManager.entities[2]
+  .scale(1, 0, 1)
+  .rotate(360, [0, 1, 0], 0, 10)
+  .translate([4, 0, -0.001])
+  // .rotate(360, [0, 1, 0], gl.EASEOUT | gl.EASEIN, 1)
   .translate([0, 0, -9.9]);
 
 EntityManager.entities[1]
@@ -72,7 +95,7 @@ EntityManager.camera
   // .translate([0, 0, -5], 4)
   // .translate([4, 0, 0], 4)
   // .translate([1, 1, 0], 10)
-  .translate([3, 4, 10], 10);
+  // .translate([3, 4, 10], 10);
 
 gl.clearColor(0.0, 0.0, 0.0, 1.0);
 gl.enable(gl.DEPTH_TEST);

@@ -20,6 +20,7 @@ export default class GLManager {
     gl.PI = 3.1415;
 
     gl.INFINITE = 1;
-    gl.EASE = 2;
+    gl.EASEIN = 2;
+    gl.EASEOUT = 4;
   }
 }
