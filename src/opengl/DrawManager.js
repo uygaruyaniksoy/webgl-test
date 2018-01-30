@@ -1,3 +1,5 @@
+import Base from '../entities/base';
+
 export default class DrawManager {
   constructor() {
     this.frame = { number: 0 };
@@ -13,6 +15,7 @@ export default class DrawManager {
   draw(loop) {
     window.startTime = Date.now();
     let view = mat4.create();
+
     mat4.lookAt(view, camera.position(), camera.gazePosition(), camera.up());
 
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -24,9 +27,9 @@ export default class DrawManager {
       mat4.identity(mvMatrix);
 
       entity.transformations.reverse().forEach((t) => {
-        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 180, t.axis);
-        else if (t.type === 'SCALE') mat4.scale(mvMatrix, mvMatrix, [1, 1, 1].map(() => Math.min((startTime - t.start) / t.duration, 1) * t.amount));
-        else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, mvMatrix, t.amount.map((a) => a * Math.min((startTime - t.start) / t.duration, 1)));
+        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, mvMatrix, Base.rotationThisFrame(t, startTime), t.axis);
+        else if (t.type === 'SCALE') mat4.scale(mvMatrix, mvMatrix, Base.scalingThisFrame(t, startTime));
+        else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, mvMatrix, Base.translationThisFrame(t, startTime));
       });
       entity.transformations.reverse();
 

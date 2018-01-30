@@ -12,6 +12,14 @@ export default class GLManager {
       alert("Could not initialise WebGL, sorry :-(");
     }
     this.canvas = canvas;
+
+    GLManager.setConstants();
+  }
+
+  static setConstants() {
     gl.PI = 3.1415;
+
+    gl.INFINITE = 1;
+    gl.EASE = 2;
   }
 }

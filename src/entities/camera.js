@@ -40,7 +40,6 @@ export default class Camera {
 
   gaze() {
     let gaze = new Vector3(0, 0, -1);
-
     for (let i = this.transformations.length - 1; i >= 0; i--) {
       let t = this.transformations[i];
       if (t.type === 'ROTATION') {
@@ -52,7 +51,7 @@ export default class Camera {
 
   up() {
     let up = [0, 1, 0];
-
+    // TODO
     return up;
   }
 
