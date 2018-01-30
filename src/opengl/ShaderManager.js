@@ -44,5 +44,6 @@ export default class ShaderManager {
     shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, 'projection');
     shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, 'modelview');
     shaderProgram.nMatrixUniform = gl.getUniformLocation(shaderProgram, 'normalMatrix');
+    shaderProgram.cameraPosUniform = gl.getUniformLocation(shaderProgram, 'cameraPos');
   }
 }

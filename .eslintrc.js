@@ -260,13 +260,6 @@ module.exports = {
         "require-jsdoc": "error",
         "rest-spread-spacing": "error",
         "semi": "error",
-        "semi-spacing": [
-            "error",
-            {
-                "after": false,
-                "before": false
-            }
-        ],
         "semi-style": [
             "error",
             "last"

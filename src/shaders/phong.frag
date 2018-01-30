@@ -1,5 +1,7 @@
 precision mediump float;
 
+uniform vec3 cameraPos;
+
 varying vec3 normalInterp;
 varying vec3 vertPos;
 
@@ -17,7 +19,7 @@ void main() {
   float specular = 0.0;
 
   if (lambertian > 0.0) {
-    vec3 viewDir = normalize(-vertPos);
+    vec3 viewDir = normalize(cameraPos - vertPos);
 
     vec3 halfDir = normalize(lightDir + viewDir);
     float specAngle = max(dot(halfDir, normal), 0.0);
@@ -27,5 +29,6 @@ void main() {
       specular * specColor, 1.0);
   } else {
     gl_FragColor = vec4(0, 0, 0, 1);
+    // gl_FragColor = vec4(cameraPos, 1);
   }
 }

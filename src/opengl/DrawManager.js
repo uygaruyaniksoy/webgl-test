@@ -7,6 +7,7 @@ export default class DrawManager {
     gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
     gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
     gl.uniformMatrix4fv(shaderProgram.nMatrixUniform, false, normalMatrix);
+    gl.uniform3fv(shaderProgram.cameraPosUniform, camera.position());
   }
 
   draw(loop) {
