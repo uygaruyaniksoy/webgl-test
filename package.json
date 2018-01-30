@@ -17,6 +17,7 @@
     "babel-loader": "^8.0.0-beta.0",
     "fs": "0.0.1-security",
     "glsl-inverse": "^1.0.0",
+    "three": "^0.89.0",
     "webpack": "^3.10.0"
   },
   "devDependencies": {

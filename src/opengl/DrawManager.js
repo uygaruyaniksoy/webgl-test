@@ -10,29 +10,26 @@ export default class DrawManager {
   }
 
   draw(loop) {
-    let startTime, endTime;
-    startTime = Date.now();
+    window.startTime = Date.now();
+    let view = mat4.create();
+    mat4.lookAt(view, camera.position(), camera.gazePosition(), camera.up());
 
     gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
     gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+    mat4.perspective(pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);
 
     EntityManager.entities.forEach((entity) => {
       mat4.identity(mvMatrix);
 
       entity.transformations.reverse().forEach((t) => {
-        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 180, t.axis);
-        else if (t.type === 'SCALE') mat4.scale(mvMatrix, [1, 1, 1].map(() => Math.min((startTime - t.start) / t.duration, 1) * t.amount));
-        else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, t.amount.map((a) => a * Math.min((startTime - t.start) / t.duration, 1)));
+        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 180, t.axis);
+        else if (t.type === 'SCALE') mat4.scale(mvMatrix, mvMatrix, [1, 1, 1].map(() => Math.min((startTime - t.start) / t.duration, 1) * t.amount));
+        else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, mvMatrix, t.amount.map((a) => a * Math.min((startTime - t.start) / t.duration, 1)));
       });
       entity.transformations.reverse();
 
-      EntityManager.camera.transformations.reverse().forEach((t) => {
-        if (t.type === 'ROTATION') mat4.rotate(mvMatrix, Math.min((startTime - t.start) / t.duration, 1) * t.angle * gl.PI / 180, t.axis);
-        else if (t.type === 'SCALE') mat4.scale(mvMatrix, [1, 1, 1].map(() => Math.min((startTime - t.start) / t.duration, 1) * t.amount));
-        else if (t.type === 'TRANSLATE') mat4.translate(mvMatrix, t.amount.map((a) => a * Math.min((startTime - t.start) / t.duration, 1)));
-      });
+      mat4.multiply(mvMatrix, view, mvMatrix);
 
       EntityManager.camera.transformations.reverse();
 
@@ -40,16 +37,15 @@ export default class DrawManager {
       gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, entity.verticesBuffer.itemSize, gl.FLOAT, false, 0, 0);
       gl.bindBuffer(gl.ARRAY_BUFFER, entity.normalsBuffer);
       gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, entity.normalsBuffer.itemSize, gl.FLOAT, false, 0, 0);
-      mat4.inverse(mvMatrix, normalMatrix);
-      mat4.transpose(normalMatrix);
+      mat4.invert(normalMatrix, mvMatrix);
+      mat4.transpose(normalMatrix, normalMatrix);
       DrawManager.setMatrixUniforms();
 
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, entity.indicesBuffer);
       gl.drawElements(gl.TRIANGLES, entity.indicesBuffer.itemSize * entity.indicesBuffer.numItems, gl.UNSIGNED_SHORT, 0);
     });
 
-
-    endTime = Date.now();
+    window.endTime = Date.now();
     if (!loop) return;
 
     this.frame.number++;

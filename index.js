@@ -10,6 +10,7 @@ window.DrawManager = new DrawManagerClass();
 window.EntityManager = new EntityManagerClass();
 window.GLManager = new GLManagerClass();
 window.ShaderManager = new ShaderManagerClass();
+window.camera = EntityManager.camera;
 
 let canvas = document.getElementById("canvas");
 
@@ -53,17 +54,19 @@ EntityManager.createEntity(
 );
 
 EntityManager.entities[0]
-  .translate([0, 0, -0.001], 0)
-  .rotate(36000, [0, 1, 0], 1000)
-  .translate([0, 0, -9.9], 0);
+  .translate([0, 0, -0.001])
+  .rotate(36000, [0, 1, 0])
+  .translate([0, 0, -9.9]);
 
 EntityManager.entities[1]
   .scale(15)
-  .rotate(90, [1, 0, 0], 0)
-  .translate([0, -1, 0], 0);
+  .rotate(90, [1, 0, 0])
+  .translate([0, -1, 0]);
 
 EntityManager.camera
-  // .rotate(360, [1, 0, 0], 10);
+  // .translate([0, 0, -5], 4)
+  // .translate([4, 0, 0], 4)
+  // .rotate(45, [0, 1, 0], 4);
 
 gl.clearColor(0.0, 0.0, 0.0, 1.0);
 gl.enable(gl.DEPTH_TEST);
