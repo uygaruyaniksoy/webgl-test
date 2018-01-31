@@ -17,4 +17,5 @@ void main(void) {
   normalInterp = vec3(normalMatrix * vec4(normal, 0.0));
 
   gl_Position = projection * modelview * vec4(position, 1.0);
+
 }

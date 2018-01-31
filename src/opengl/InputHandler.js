@@ -6,7 +6,6 @@ export default class InputHandler {
 
   static keyPressHandler(event) {
     let right = vec3.create();
-    console.log(event.key);
     switch (event.key) {
       case 'w':
         camera._position = camera._position.map((p, i) => p + camera._gaze[i] * 0.3);

@@ -1,5 +1,5 @@
-import fragmentSource from '../shaders/phong.frag';
-import verticeSource from '../shaders/phong.vert';
+import fragmentSource from '../shaders/toon.frag';
+import verticeSource from '../shaders/toon.vert';
 
 export default class ShaderManager {
   constructor() {
